@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Días de Ovulación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        label {
+            font-size: 1em;
+            color: #666666;
+        }
+
+        input[type="date"], button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 1em;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #cccccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Calculadora de Ovulación</h1>
+    <label for="period-date">Fecha del último periodo:</label>
+    <input type="date" id="period-date">
+    <button onclick="calcularOvulacion()">Calcular días de ovulación</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function calcularOvulacion() {
+        const periodDate = document.getElementById("period-date").value;
+        if (!periodDate) {
+            alert("Por favor, ingresa la fecha de tu último periodo.");
+            return;
+        }
+
+        const periodStartDate = new Date(periodDate);
+        const cycleLength = 28; // Longitud promedio del ciclo en días
+        const ovulationDay = cycleLength - 14; // Días antes del próximo periodo
+
+        const ovulationStartDate = new Date(periodStartDate);
+        ovulationStartDate.setDate(ovulationStartDate.getDate() + ovulationDay - 2); // Inicio de ventana fértil
+
+        const ovulationEndDate = new Date(periodStartDate);
+        ovulationEndDate.setDate(ovulationEndDate.getDate() + ovulationDay + 2); // Fin de ventana fértil
+
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const resultText = `Días de ovulación estimados: <br>
+                            Desde: ${ovulationStartDate.toLocaleDateString('es-ES', options)} <br>
+                            Hasta: ${ovulationEndDate.toLocaleDateString('es-ES', options)}`;
+
+        document.getElementById("result").innerHTML = resultText;
+    }
+</script>
+
+</body>
+</html>
